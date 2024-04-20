@@ -19,6 +19,7 @@ map('n', '<leader><c-q>', ':wqa<cr>')
 map('n', '<leader>a', '<c-^>')
 map('n', '<leader>y', '"+y')
 map('n', '<leader>p', '"+p')
+map('n', '<leader>w', '<cmd>w<CR>')
 
 require("lazy").setup({
   'tpope/vim-sleuth',
@@ -89,7 +90,11 @@ require("lazy").setup({
       -- "nvim-telescope/telescope.nvim", -- optional
       "ibhagwan/fzf-lua", -- optional
     },
-    config = true
+    config = function()
+      neogit = require('neogit')
+      neogit.setup {}
+      map('n', '<leader>gg', '<cmd>Neogit kind=vsplit<CR>')
+    end
   },
   {
     'pwntester/octo.nvim',
