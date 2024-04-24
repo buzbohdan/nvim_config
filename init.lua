@@ -91,8 +91,8 @@ require("lazy").setup({
       "ibhagwan/fzf-lua", -- optional
     },
     config = function()
-      neogit = require('neogit')
-      neogit.setup {}
+      local neogit = require('neogit')
+      neogit.setup { disable_hint = true }
       map('n', '<leader>gg', '<cmd>Neogit kind=vsplit<CR>')
     end
   },
