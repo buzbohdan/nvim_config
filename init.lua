@@ -20,6 +20,7 @@ map('n', '<leader>a', '<c-^>')
 map('n', '<leader>y', '"+y')
 map('n', '<leader>p', '"+p')
 map('n', '<leader>w', '<cmd>w<CR>')
+map('n', '<leader>p', '<c-w>p')
 
 require("lazy").setup({
   'tpope/vim-sleuth',
@@ -67,16 +68,17 @@ require("lazy").setup({
       },
       numhl = true,
       linehl = true,
-      show_deleted = true,
+      show_deleted = false,
       on_attach = function()
         local gitsigns = require('gitsigns')
         map('n', '<leader>hs', gitsigns.stage_hunk)
         map('n', '<leader>hu', gitsigns.undo_stage_hunk)
         map('n', '<leader>hr', gitsigns.reset_hunk)
-        map('n', '<leader>hn', gitsigns.next_hunk)
-        map('n', '<leader>hp', gitsigns.prev_hunk)
-        map('n', '<leader>hP', gitsigns.preview_hunk)
-        map('n', '<leader>ht', gitsigns.setqflist)
+        map('n', '<M-h>', gitsigns.next_hunk)
+        map('n', '<M-H>', gitsigns.prev_hunk)
+        map('n', '<leader>hp', gitsigns.preview_hunk)
+        map('n', '<leader>hq', gitsigns.setqflist)
+        map('n', '<leader>hd', gitsigns.toggle_deleted)
       end
     },
   },
@@ -94,6 +96,7 @@ require("lazy").setup({
       local neogit = require('neogit')
       neogit.setup { disable_hint = true }
       map('n', '<leader>gg', '<cmd>Neogit kind=vsplit<CR>')
+      map('n', '<leader>gf', '<cmd>Neogit cwd=%:p:h kind=vsplit<CR>')
     end
   },
   {
@@ -184,7 +187,7 @@ require("lazy").setup({
         incremental_selection = {
           enable = true,
           keymap = {
-            init_selection = 'gnn', node_incremental = "grn", node_decremental = "grm", }
+            init_selection = 'gnn', node_incremental = "<M-i>", node_decremental = "<M-I>", }
         },
         textobjects = {
           move = {
