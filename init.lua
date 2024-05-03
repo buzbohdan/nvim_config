@@ -25,6 +25,23 @@ map('n', '<leader>p', '<c-w>p')
 require("lazy").setup({
   'tpope/vim-sleuth',
   {
+    'nvim-lua/lsp-status.nvim',
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('lualine').setup {
+        options = { theme = 'gruvbox_dark' },
+        sections = {
+          lualine_a = { { 'mode', fmt = function(mode) return mode:sub(1, 1) end } },
+          lualine_c = { { 'filename', path = 1 } },
+          lualine_x = {},
+        }
+      }
+    end
+  },
+  {
     'stevearc/conform.nvim',
     opts = {
       formatters_by_ft = { xml = { 'xmlformat' } },
