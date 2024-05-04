@@ -30,16 +30,25 @@ require("lazy").setup({
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      require('lualine').setup {
-        options = { theme = 'gruvbox_dark' },
-        sections = {
-          lualine_a = { { 'mode', fmt = function(mode) return mode:sub(1, 1) end } },
-          lualine_c = { { 'filename', path = 1 } },
-          lualine_x = {},
-        }
+    opts = {
+      options = {
+        theme = 'gruvbox_dark',
+        disabled_filetypes = {
+          statusline = { "NeogitStatus", "NvimTree" },
+        },
+      },
+      sections = {
+        lualine_a = {
+          { 'mode', fmt = function(mode) return mode:sub(1, 1) end },
+          function() return vim.fn.fnamemodify(vim.fn.getcwd(), ':t') end,
+        },
+        lualine_c = { { 'filename', path = 1 }, },
+        lualine_x = {},
+      },
+      inactive_sections = {
+        lualine_c = { { 'filename', path = 1 } },
       }
-    end
+    },
   },
   {
     'stevearc/conform.nvim',
