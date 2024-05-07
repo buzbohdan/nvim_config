@@ -25,9 +25,6 @@ map('n', '<leader>p', '<c-w>p')
 require("lazy").setup({
   'tpope/vim-sleuth',
   {
-    'nvim-lua/lsp-status.nvim',
-  },
-  {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
@@ -58,6 +55,24 @@ require("lazy").setup({
         xmlformat = { command = '~/.local/bin/xmlformat' },
       }
     }
+  },
+  {
+    'nvimdev/lspsaga.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      require('lspsaga').setup({
+        symbol_in_winbar = { show_file = false },
+        finder = { left_width = 0.2 },
+        lightbulb = { sign = false },
+      })
+      map('n', '<leader>sp', '<cmd>Lspsaga peek_definition<CR>')
+      map('n', '<leader>sa', '<cmd>Lspsaga code_action<CR>')
+      map('n', '<leader>sf', '<cmd>Lspsaga finder<CR>')
+      map('n', '<leader>so', '<cmd>Lspsaga outline<CR>')
+      map('n', '<leader>st', '<cmd>Lspsaga term_toggle<CR>')
+      map('n', '<leader>sh', '<cmd>Lspsaga hover_doc<CR>')
+      map('n', '<leader>sr', '<cmd>Lspsaga rename<CR>')
+    end
   },
   {
     "folke/trouble.nvim",
@@ -183,11 +198,6 @@ require("lazy").setup({
           vim.keymap.set('n', '<leader>loc', vim.lsp.buf.outgoing_calls, opts)
           vim.keymap.set('n', '<leader>lds', vim.lsp.buf.document_symbol, opts)
           vim.keymap.set('n', '<leader>lws', vim.lsp.buf.workspace_symbol, opts)
-          vim.keymap.set('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, opts)
-          vim.keymap.set('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, opts)
-          vim.keymap.set('n', '<leader>lwl', function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end, opts)
           vim.keymap.set('n', '<leader>lR', vim.lsp.buf.rename, opts)
           vim.keymap.set({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, opts)
           vim.keymap.set('n', '<leader>lr', '<cmd>TroubleToggle lsp_references<cr>', opts)
@@ -207,7 +217,7 @@ require("lazy").setup({
     },
     config = function()
       require('nvim-treesitter.configs').setup({
-        ensure_installed = { "c", "lua", "vim", "vimdoc", "query", 'scala', 'rust', 'python', 'json' },
+        ensure_installed = { 'c', 'lua', 'vim', 'vimdoc', 'query', 'scala', 'rust', 'python', 'json', 'markdown', 'markdown_inline' },
         highlight = { enable = true },
         indent = { enable = true },
         incremental_selection = {
