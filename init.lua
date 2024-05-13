@@ -29,7 +29,7 @@ require("lazy").setup({
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
-        theme = 'gruvbox_dark',
+        theme = 'catppuccin',
         disabled_filetypes = {
           statusline = { "NeogitStatus", "NvimTree" },
         },
@@ -44,7 +44,7 @@ require("lazy").setup({
       },
       inactive_sections = {
         lualine_c = { { 'filename', path = 1 } },
-      }
+      },
     },
   },
   {
@@ -108,7 +108,7 @@ require("lazy").setup({
         changedelete = { text = '~' },
       },
       numhl = true,
-      linehl = true,
+      linehl = false,
       show_deleted = false,
       on_attach = function()
         local gitsigns = require('gitsigns')
@@ -139,6 +139,11 @@ require("lazy").setup({
       map('n', '<leader>gg', '<cmd>Neogit kind=vsplit<CR>')
       map('n', '<leader>gf', '<cmd>Neogit cwd=%:p:h kind=vsplit<CR>')
     end
+  },
+  {
+    'ray-x/lsp_signature.nvim',
+    event = 'VeryLazy',
+    opts = { hint_enable = false },
   },
   {
     'pwntester/octo.nvim',
@@ -172,6 +177,7 @@ require("lazy").setup({
       local lspconfig = require('lspconfig')
 
       lspconfig.pyright.setup({})
+      lspconfig.jsonls.setup({})
       lspconfig.lua_ls.setup({
         settings = {
           Lua = {
@@ -321,16 +327,38 @@ require("lazy").setup({
     end
   },
   {
+    'SmiteshP/nvim-navbuddy',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'SmiteshP/nvim-navic',
+      'MunifTanjim/nui.nvim',
+    },
+    config = function()
+      local navbuddy = require('nvim-navbuddy')
+      navbuddy.setup({
+        lsp = { auto_attach = true },
+        window = {
+          border = 'rounded',
+          size = { width = '80%', height = '40%' },
+          position = { row = '100%', col = '80%' },
+        },
+        source_buffer = { reorient = 'top', scrolloff = 2 },
+      })
+      map('n', '<leader>nn', navbuddy.open)
+    end
+  },
+  {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
       { "hrsh7th/cmp-nvim-lsp" },
       { "hrsh7th/cmp-vsnip" },
-      { "hrsh7th/vim-vsnip" }
+      { "hrsh7th/vim-vsnip" },
+      { 'onsails/lspkind.nvim' },
     },
-    opts = function()
+    config = function()
       local cmp = require("cmp")
-      local conf = {
+      cmp.setup({
         sources = {
           { name = "nvim_lsp" },
           { name = "vsnip" },
@@ -342,6 +370,9 @@ require("lazy").setup({
             vim.fn["vsnip#anonymous"](args.body)
           end,
         },
+        formatting = {
+          format = require('lspkind').cmp_format({})
+        },
         window = {
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
@@ -349,8 +380,7 @@ require("lazy").setup({
         mapping = cmp.mapping.preset.insert({
           ["<CR>"] = cmp.mapping.confirm({ select = true })
         })
-      }
-      return conf
+      })
     end,
   },
   {
