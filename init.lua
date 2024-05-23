@@ -29,7 +29,7 @@ require("lazy").setup({
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
-        theme = 'catppuccin',
+        theme = 'sonokai',
         disabled_filetypes = {
           statusline = { "NeogitStatus", "NvimTree" },
         },
@@ -96,7 +96,8 @@ require("lazy").setup({
       map('n', '<leader>bd', MiniBufremove.delete)
     end
   },
-  { "catppuccin/nvim",                     name = 'catppuccin', priority = 1000 },
+  { "catppuccin/nvim", name = 'catppuccin', priority = 1000 },
+  { "sainnhe/sonokai", priority = 1000 },
   {
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -250,7 +251,7 @@ require("lazy").setup({
       })
     end
   },
-  { "lukas-reineke/indent-blankline.nvim", main = "ibl",        opts = {} },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
   {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.6',
@@ -475,7 +476,8 @@ require("lazy").setup({
 })
 
 
-vim.cmd.colorscheme "catppuccin-macchiato"
+-- vim.cmd.colorscheme "catppuccin-macchiato"
+vim.cmd.colorscheme "sonokai"
 
 -- global
 vim.opt_global.completeopt = { "menuone", "noinsert", "noselect" }
