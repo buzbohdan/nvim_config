@@ -105,8 +105,16 @@ require('lazy').setup(
         }
       end,
     },
-    { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
-    { 'sainnhe/sonokai', priority = 1000 },
+    {
+      'sainnhe/sonokai',
+      dependencies = { { 'catppuccin/nvim', name = 'catppuccin' } },
+      priority = 1000,
+      config = function ()
+        -- Need to activate `catppuccin` first, otherwise Neogit doesn' have color (no idea why)
+        vim.cmd.colorscheme 'catppuccin'
+        vim.cmd.colorscheme 'sonokai'
+      end
+    },
     {
       'lewis6991/gitsigns.nvim',
       opts = {
@@ -498,6 +506,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Need to activate `catppuccin` first, otherwise Neogit doesn' have color (no idea why)
-vim.cmd.colorscheme 'catppuccin'
-vim.cmd.colorscheme 'sonokai'
