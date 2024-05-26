@@ -24,7 +24,6 @@ map('n', '<leader>p', '<c-w>p')
 
 require('lazy').setup(
   {
-    'tpope/vim-sleuth',
     {
       'nvim-lualine/lualine.nvim',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -77,17 +76,12 @@ require('lazy').setup(
     {
       'folke/trouble.nvim',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
-      opts = {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      },
     },
     {
       'echasnovski/mini.nvim',
       version = false,
       config = function()
-        require('mini.comment').setup()
+        require('mini.comment').setup {}
         require('mini.sessions').setup { autoread = true }
 
         require('mini.bufremove').setup {}
@@ -276,8 +270,8 @@ require('lazy').setup(
         map('n', '<leader>fa', function() builtin.find_files { no_ignore = false } end)
         map('n', '<leader>ff', function() telescope.extensions.frecency.frecency {} end)
         map('n', '<leader>fb', builtin.buffers, {})
-        map('n', '<leader>fg', telescope.extensions.live_grep_args.live_grep_args)
-        map('n', '<leader>fgg', builtin.grep_string, {})
+        map('n', '<leader>fl', telescope.extensions.live_grep_args.live_grep_args)
+        map('n', '<leader>fg', builtin.grep_string, {})
         map('n', '<leader>fc', builtin.commands, {})
         map('n', '<leader>fo', builtin.oldfiles, {})
         map('n', '<leader>fh', builtin.command_history, {})
