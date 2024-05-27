@@ -76,6 +76,9 @@ require('lazy').setup(
     {
       'folke/trouble.nvim',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
+      config = function ()
+        map('n', '<leader>td', '<cmd>TroubleToggle document_diagnostics<cr>')
+      end
     },
     {
       'echasnovski/mini.nvim',
