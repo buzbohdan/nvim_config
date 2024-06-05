@@ -476,15 +476,15 @@ require('lazy').setup(
 -- global
 vim.opt_global.completeopt = { 'menuone', 'noinsert', 'noselect' }
 
-vim.o.number = 1
-vim.o.cursorline = 1
-vim.o.ignorecase = 1
-vim.o.smartcase = 1
-vim.o.autoindent = 1
-vim.o.expandtab = 1
+vim.o.number = true
+vim.o.cursorline = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.autoindent = true
+vim.o.expandtab = true
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
-vim.o.confirm = 2
+vim.o.confirm = true
 vim.o.updatetime = 250
 vim.o.scrolloff = 5
 vim.o.mouse = 'a'
@@ -502,4 +502,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+vim.cmd.language('en_GB')
 
