@@ -20,7 +20,7 @@ map('n', '<leader>a', '<c-^>')
 map('n', '<leader>y', '"+y')
 map('n', '<leader>p', '"+p')
 map('n', '<leader>w', '<cmd>w<CR>')
-map('n', '<leader>p', '<c-w>p')
+map('n', '<M-w>', '<c-w>w')
 
 require('lazy').setup(
   {
@@ -75,10 +75,15 @@ require('lazy').setup(
     },
     {
       'folke/trouble.nvim',
+      cmd = 'Trouble',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
-      config = function ()
-        map('n', '<leader>td', '<cmd>TroubleToggle document_diagnostics<cr>')
-      end
+      opts = {},
+      keys = {
+        {
+          '<leader>td',
+          '<cmd>Trouble diagnostics<cr>',
+        },
+      },
     },
     {
       'echasnovski/mini.nvim',
@@ -106,7 +111,7 @@ require('lazy').setup(
       'sainnhe/sonokai',
       dependencies = { { 'catppuccin/nvim', name = 'catppuccin' } },
       priority = 1000,
-      config = function ()
+      config = function()
         -- Need to activate `catppuccin` first, otherwise Neogit doesn' have color (no idea why)
         vim.cmd.colorscheme 'catppuccin'
         vim.cmd.colorscheme 'sonokai'
@@ -166,8 +171,9 @@ require('lazy').setup(
         'rktjmp/lush.nvim',
       },
       config = function()
-        -- calling `setup` is optional for customization
-        require('fzf-lua').setup({})
+        local fzf = require('fzf-lua')
+        fzf.setup({})
+        map('n', '<leader>fr', fzf.registers)
       end
     },
     {
@@ -504,4 +510,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.cmd.language('en_GB')
-
