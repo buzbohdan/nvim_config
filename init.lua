@@ -89,7 +89,6 @@ require('lazy').setup(
       'echasnovski/mini.nvim',
       version = false,
       config = function()
-        require('mini.comment').setup {}
         require('mini.sessions').setup { autoread = true }
 
         require('mini.bufremove').setup {}
@@ -117,6 +116,7 @@ require('lazy').setup(
         vim.cmd.colorscheme 'sonokai'
       end
     },
+    { 'almo7aya/openingh.nvim' },
     {
       'lewis6991/gitsigns.nvim',
       opts = {
