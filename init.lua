@@ -25,6 +25,10 @@ map('n', '<M-w>', '<c-w>w')
 require('lazy').setup(
   {
     {
+      'chentoast/marks.nvim',
+      config = true,
+    },
+    {
       'nvim-lualine/lualine.nvim',
       dependencies = { 'nvim-tree/nvim-web-devicons' },
       opts = {
