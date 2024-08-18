@@ -169,15 +169,21 @@ require('lazy').setup(
     },
     {
       'ibhagwan/fzf-lua',
-      -- optional for icon support
       dependencies = {
         'nvim-tree/nvim-web-devicons',
-        'rktjmp/lush.nvim',
       },
       config = function()
         local fzf = require('fzf-lua')
-        fzf.setup({})
-        map('n', '<leader>fr', fzf.registers)
+        fzf.setup({
+          winopts = { fullscreen = true, preview = { layout = 'vertical' }}
+        })
+        map('n', '<leader>fr', fzf.resume)
+        map('n', '<leader>fa', fzf.files)
+        map('n', '<leader>fb', fzf.buffers)
+        map('n', '<leader>fw', fzf.grep_cword)
+        map('n', '<leader>fg', fzf.grep_project)
+        map('n', '<leader>fl', fzf.lines)
+        map('n', '<leader>fm', fzf.marks)
       end
     },
     {
@@ -280,11 +286,11 @@ require('lazy').setup(
         local builtin = require('telescope.builtin')
         local telescope = require('telescope')
 
-        map('n', '<leader>fa', function() builtin.find_files { no_ignore = false } end)
+        -- map('n', '<leader>fa', function() builtin.find_files { no_ignore = false } end)
         map('n', '<leader>ff', function() telescope.extensions.frecency.frecency {} end)
-        map('n', '<leader>fb', builtin.buffers, {})
-        map('n', '<leader>fl', telescope.extensions.live_grep_args.live_grep_args)
-        map('n', '<leader>fg', builtin.grep_string, {})
+        -- map('n', '<leader>fb', builtin.buffers, {})
+        -- map('n', '<leader>fl', telescope.extensions.live_grep_args.live_grep_args)
+        -- map('n', '<leader>fg', builtin.grep_string, {})
         map('n', '<leader>fc', builtin.commands, {})
         map('n', '<leader>fo', builtin.oldfiles, {})
         map('n', '<leader>fh', builtin.command_history, {})
@@ -322,7 +328,13 @@ require('lazy').setup(
         'nvim-tree/nvim-web-devicons',
       },
       config = function()
-        require('nvim-tree').setup { filters = { exclude = { 'local.py', 'local_settings.py' } } }
+        require('nvim-tree').setup {
+          view = { width = 60 },
+          filters = {
+            git_ignored = false,
+            custom = { '__pycache__', '.mypy_cache', '.pytest_cache' }
+          }
+        }
         map('n', '<leader>tt', '<cmd>:NvimTreeToggle<cr>')
         map('n', '<leader>tf', '<cmd>:NvimTreeFocus<cr>')
         map('n', '<leader>tr', '<cmd>:NvimTreeFindFile<cr>')
@@ -333,6 +345,7 @@ require('lazy').setup(
         vim.g.loaded_netrwPlugin = 1
       end
     },
+    { 'kazhala/close-buffers.nvim' },
     {
       'SmiteshP/nvim-navbuddy',
       dependencies = {
@@ -486,6 +499,7 @@ require('lazy').setup(
 -- global
 vim.opt_global.completeopt = { 'menuone', 'noinsert', 'noselect' }
 
+vim.o.autowriteall = true
 vim.o.number = true
 vim.o.cursorline = true
 vim.o.ignorecase = true
