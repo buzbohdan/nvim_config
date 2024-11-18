@@ -18,6 +18,7 @@ map('n', '<leader>hh', '<cmd>nohlsearch<CR>')
 map('n', '<leader><c-q>', ':wqa<cr>')
 map('n', '<leader>a', '<c-^>')
 map('n', '<leader>y', '"+y')
+map('n', '<leader>Yf', '<cmd>let @+ = expand("%")<CR>')
 map('n', '<leader>p', '"+p')
 map('n', '<leader>w', '<cmd>w<CR>')
 map('n', '<M-w>', '<c-w>w')
@@ -27,6 +28,16 @@ require('lazy').setup(
     {
       'chentoast/marks.nvim',
       config = true,
+    },
+    {
+      "cbochs/grapple.nvim",
+      dependencies = {
+        { "nvim-tree/nvim-web-devicons", lazy = true }
+      },
+      keys = {
+        { "<leader>M", "<cmd>Grapple toggle<cr>",      desc = "Grapple toggle tag" },
+        { "<leader>m", "<cmd>Grapple toggle_tags<cr>", desc = "Grapple open tags window" },
+      },
     },
     {
       'nvim-lualine/lualine.nvim',
@@ -42,6 +53,18 @@ require('lazy').setup(
           lualine_a = {
             { 'mode', fmt = function(mode) return mode:sub(1, 1) end },
             function() return vim.fn.fnamemodify(vim.fn.getcwd(), ':t') end,
+          },
+          lualine_b = {
+            {
+              'branch',
+              fmt = function(branch)
+                local pos = string.find(branch, '/')
+                if pos ~= nil then return branch:sub(1, pos - 1) end
+                return branch
+              end
+            },
+            'diff',
+            'diagnostics',
           },
           lualine_c = { { 'filename', path = 1 }, },
           lualine_x = {},
@@ -93,6 +116,8 @@ require('lazy').setup(
       'echasnovski/mini.nvim',
       version = false,
       config = function()
+        require('mini.ai').setup()
+        require('mini.bracketed').setup()
         require('mini.sessions').setup { autoread = true }
 
         require('mini.bufremove').setup {}
@@ -175,15 +200,17 @@ require('lazy').setup(
       config = function()
         local fzf = require('fzf-lua')
         fzf.setup({
-          winopts = { fullscreen = true, preview = { layout = 'vertical' }}
+          winopts = { fullscreen = true, preview = { layout = 'vertical' } }
         })
-        map('n', '<leader>fr', fzf.resume)
+        map('n', '<leader>fR', fzf.resume)
         map('n', '<leader>fa', fzf.files)
+        map('n', '<leader>fo', fzf.oldfiles)
         map('n', '<leader>fb', fzf.buffers)
         map('n', '<leader>fw', fzf.grep_cword)
         map('n', '<leader>fg', fzf.grep_project)
         map('n', '<leader>fl', fzf.lines)
         map('n', '<leader>fm', fzf.marks)
+        map('n', '<leader>fr', fzf.lsp_references)
       end
     },
     {
@@ -198,7 +225,7 @@ require('lazy').setup(
             Lua = {
               diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                globals = { 'vim', 'MiniSessions', 'MiniBufremove' },
+                globals = { 'vim', 'MiniBufremove' },
               },
             },
           }
@@ -247,6 +274,16 @@ require('lazy').setup(
               init_selection = 'gnn', node_incremental = '<M-i>', node_decremental = '<M-I>', }
           },
           textobjects = {
+            select = {
+              enable = true,
+              lookahead = true,
+              keymaps = {
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@class.outer",
+                ["ic"] = "@class.inner",
+              }
+            },
             move = {
               enable = true,
               set_jumps = true,
@@ -294,7 +331,7 @@ require('lazy').setup(
         map('n', '<leader>fc', builtin.commands, {})
         map('n', '<leader>fo', builtin.oldfiles, {})
         map('n', '<leader>fh', builtin.command_history, {})
-        map('n', '<leader>fs', builtin.search_history, {})
+        -- map('n', '<leader>fs', builtin.search_history, {})
       end,
       config = function()
         local telescope = require 'telescope'
@@ -320,6 +357,7 @@ require('lazy').setup(
         telescope.load_extension('frecency')
       end
     },
+    -- 'jinh0/eyeliner.nvim',
     {
       'nvim-tree/nvim-tree.lua',
       version = '*',
