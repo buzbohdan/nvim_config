@@ -491,19 +491,6 @@ require('lazy').setup(
             require('metals').hover_worksheet()
           end)
 
-          -- all workspace diagnostics
-          map('n', '<leader>aa', vim.diagnostic.setqflist)
-
-          -- all workspace errors
-          map('n', '<leader>ae', function()
-            vim.diagnostic.setqflist({ severity = 'E' })
-          end)
-
-          -- all workspace warnings
-          map('n', '<leader>aw', function()
-            vim.diagnostic.setqflist({ severity = 'W' })
-          end)
-
           -- buffer diagnostics only
           map('n', '<leader>d', vim.diagnostic.setloclist)
 
